@@ -1,3 +1,25 @@
 node_modules/
 dist/
+
+# Env files
+.env
 .env.local
+.env.*.local
+
+# Vite cache
+.vite/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+*.log
+npm-debug.log*

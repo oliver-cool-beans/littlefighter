@@ -9,3 +9,7 @@
 /.vscode
 AGENTS.md
 PLAN.md
+
+# macOS
+.DS_Store
+**/.DS_Store

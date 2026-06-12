@@ -1,3 +1,21 @@
 node_modules/
 dist/
+
+# Env files
+.env
 .env.local
+.env.*.local
+
+# PartyKit local state
+.partykit/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
