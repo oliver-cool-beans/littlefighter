@@ -1,0 +1,11 @@
+# Other project folders in this workspace
+/F.LF
+/R-LF2
+/LF2_19
+
+# Tooling / local config
+/.claude
+/.vite
+/.vscode
+AGENTS.md
+PLAN.md

@@ -1,0 +1,7 @@
+{
+  "name": "lf2-server",
+  "main": "party/index.ts",
+  "parties": {
+    "roomlist": "party/roomlist.ts"
+  }
+}

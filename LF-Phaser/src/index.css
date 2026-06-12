@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Monster Bites';
+  src: url('/fonts/MonsterBites.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Monster Bites';
+  src: url('/fonts/MonsterBitesItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: block;
+}
+
+/* ============================================================
+   Global keyframe animations — used by themed UI components
+   ============================================================ */
+
+/* Renamed from hp-bar-shake — covers both HP and MP bars */
+@keyframes bar-shake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-7px); }
+  30%  { transform: translateX(6px); }
+  45%  { transform: translateX(-4px); }
+  60%  { transform: translateX(3px); }
+  75%  { transform: translateX(-2px); }
+  90%  { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+
+/* Keep legacy alias so old code still compiles before migration */
+@keyframes hp-bar-shake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-7px); }
+  30%  { transform: translateX(6px); }
+  45%  { transform: translateX(-4px); }
+  60%  { transform: translateX(3px); }
+  75%  { transform: translateX(-2px); }
+  90%  { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+
+/* Pulsing glow border — used by FocusRing and active panels */
+@keyframes glow-pulse {
+  0%   { opacity: 1;    box-shadow: 0 0 8px #FFE040, 0 0 20px #FFE04080; }
+  50%  { opacity: 0.7;  box-shadow: 0 0 14px #FFE040, 0 0 36px #FFE040A0; }
+  100% { opacity: 1;    box-shadow: 0 0 8px #FFE040, 0 0 20px #FFE04080; }
+}
+
+/* Slide panels in from the sides — used by VS screen */
+@keyframes slide-in-left {
+  from { transform: translateX(-120%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(120%);  opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+/* Brief white-out on FIGHT! announcements */
+@keyframes flash-white {
+  0%   { background: rgba(255,255,255,0); }
+  20%  { background: rgba(255,255,255,0.6); }
+  100% { background: rgba(255,255,255,0); }
+}
+
+/* Menu cursor blink at ~1 Hz */
+@keyframes cursor-blink {
+  0%, 49%  { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Quick confirm pop — scale 1 → 1.08 → 1 */
+@keyframes scale-pop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Scanline scroll — subtle 2px repeating lines drifting upward */
+@keyframes scanline-scroll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 -4px; }
+}
+
+/* Wave announcement — fade in, hold, fade out */
+@keyframes wave-announce {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Screen entrance — fade up from 10px below */
+@keyframes screen-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Ambient background element pulse */
+@keyframes bg-breathe {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 1; }
+}
+
+/* Menu item reveal on mount with stagger */
+@keyframes item-reveal {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Gradient text shimmer sweep */
+@keyframes shimmer {
+  0%   { background-position: -300% center; }
+  100% { background-position:  300% center; }
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Juice / combat feel ─────────────────────────────────────────────────── */
+
+/* HP bar white flash on damage hit */
+@keyframes hp-damage-flash {
+  0%   { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+/* MP bar shimmer sweep on charge-ready */
+@keyframes mp-shimmer {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+/* MP bar ready pulse — subtle breathe when full */
+@keyframes mp-ready-pulse {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.65; }
+}
+
+/* Combo counter pop — scale punch on each new hit */
+@keyframes combo-pop {
+  0%   { transform: scale(1.8); opacity: 1; }
+  40%  { transform: scale(0.9); }
+  70%  { transform: scale(1.08); }
+  100% { transform: scale(1.0); opacity: 1; }
+}
+
+/* Combo counter fade out when expired */
+@keyframes combo-fade {
+  0%   { opacity: 1; transform: scale(1.0) translateY(0); }
+  100% { opacity: 0; transform: scale(0.7) translateY(-12px); }
+}
+
+/* Low-health vignette pulse */
+@keyframes vignette-danger {
+  0%, 100% { opacity: 0.30; }
+  50%       { opacity: 0.65; }
+}
+
+/* Main menu intro — background layer fades in from black */
+@keyframes menu-bg-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Main menu intro — content (logo / panel) fades in */
+@keyframes menu-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Character select — slot transition banner (slide in, hold, fade out) */
+@keyframes slot-banner {
+  0%   { opacity: 0; transform: translateY(-8px) scaleX(0.95); }
+  12%  { opacity: 1; transform: translateY(0)    scaleX(1);    }
+  78%  { opacity: 1; transform: translateY(0)    scaleX(1);    }
+  100% { opacity: 0; transform: translateY(-4px) scaleX(0.97); }
+}
