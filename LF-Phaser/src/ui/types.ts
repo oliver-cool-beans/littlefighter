@@ -145,6 +145,7 @@ export type UIEvents = {
   'net:disconnect':        undefined
   'net:subscribe-rooms':   undefined
   'net:unsubscribe-rooms': undefined
+  'net:send-cursor':       { characterId: number }
 
   // ── Network events: LobbyManager → React/Phaser ─────────────────────────
   'net:lobby-update':  { code: string; slots: import('../network/types.js').PlayerSlot[]; status: import('../network/types.js').LobbyStatus }
@@ -153,7 +154,8 @@ export type UIEvents = {
   'net:server-state':  { tick: number; entities: import('../network/types.js').EntityStateNet[]; freezeFrames: number; shakeSeverity: number }
   'net:remote-input':  { tick: number; playerIndex: number; keys: number }
   'net:match-end':     { winnerTeam: number }
-  'net:chat-received': { playerIndex: number; displayName: string; text: string }
+  'net:chat-received':  { playerIndex: number; displayName: string; text: string }
+  'net:cursor-update':  { playerIndex: number; characterId: number }
   'net:game-paused':   { playerIndex: number; pausesRemaining: number }
   'net:game-resumed':  undefined
   'net:error':         { code: string; message: string }

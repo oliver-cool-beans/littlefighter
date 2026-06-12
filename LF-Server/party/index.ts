@@ -70,6 +70,7 @@ export default class GameRoom implements Party.Server {
       case 'room-config': this._onRoomConfig(msg, playerIndex, sender); break
       case 'start':       await this._onStart(playerIndex, sender);    break
       case 'chat':        this._onChat(msg, playerIndex);              break
+      case 'cursor':      this._onCursor(msg, playerIndex, sender);   break
       case 'pause':       this._onPause(playerIndex, sender);          break
       case 'resume':      this._onResume();                            break
       case 'ping':
@@ -197,6 +198,11 @@ export default class GameRoom implements Party.Server {
       return
     }
     await this._beginCountdown()
+  }
+
+  private _onCursor(msg: C2SMessage & { type: 'cursor' }, playerIndex: number, sender: Party.Connection): void {
+    if (this.status !== 'waiting' && this.status !== 'ready') return
+    this._broadcastExcept(sender.id, { type: 'cursor', playerIndex, characterId: msg.characterId })
   }
 
   private _onChat(msg: C2SMessage & { type: 'chat' }, playerIndex: number): void {

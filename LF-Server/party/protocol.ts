@@ -52,6 +52,7 @@ export type C2SMessage =
   | { type: 'input';       tick: number; playerIndex: number; keys: number }
   | { type: 'state';       tick: number; entities: EntityStateNet[] }
   | { type: 'chat';        text: string }
+  | { type: 'cursor';      characterId: number }
   | { type: 'pause' }
   | { type: 'resume' }
   | { type: 'ping';        timestamp: number }
@@ -67,6 +68,7 @@ export type S2CMessage =
   | { type: 'state';     tick: number; entities: EntityStateNet[] }
   | { type: 'end';       winnerTeam: number }
   | { type: 'chat';      playerIndex: number; displayName: string; text: string }
+  | { type: 'cursor';    playerIndex: number; characterId: number }
   | { type: 'pause';     playerIndex: number; pausesRemaining: number }
   | { type: 'resume' }
   | { type: 'pong';      timestamp: number; serverTime: number }

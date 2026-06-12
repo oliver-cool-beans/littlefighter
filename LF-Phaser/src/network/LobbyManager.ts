@@ -37,19 +37,19 @@ export function initLobbyManager(): void {
 
   // ── React → network ──────────────────────────────────────────────────────
 
-  bus.on('net:create-lobby', ({ displayName, isPrivate }) => {
+  bus.on('net:create-lobby', ({ displayName, characterId, isPrivate }) => {
     const code = _genCode()
     gameClient.connect(code, HOST, isPrivate)
     gameClient.on('open', () => {
-      gameClient.send({ type: 'join', displayName })
+      gameClient.send({ type: 'join', displayName, ...(characterId ? { characterId } : {}) })
     })
     _attachGameHandlers()
   })
 
-  bus.on('net:join-lobby', ({ code, displayName }) => {
+  bus.on('net:join-lobby', ({ code, displayName, characterId }) => {
     gameClient.connect(code.toUpperCase(), HOST, false)
     gameClient.on('open', () => {
-      gameClient.send({ type: 'join', displayName })
+      gameClient.send({ type: 'join', displayName, ...(characterId ? { characterId } : {}) })
     })
     _attachGameHandlers()
   })
@@ -64,6 +64,10 @@ export function initLobbyManager(): void {
 
   bus.on('net:send-chat', ({ text }) => {
     gameClient.send({ type: 'chat', text })
+  })
+
+  bus.on('net:send-cursor', ({ characterId }) => {
+    gameClient.send({ type: 'cursor', characterId })
   })
 
   bus.on('net:pause-request', () => {
@@ -113,6 +117,7 @@ function _attachGameHandlers(): void {
   gameClient.off('input',     _onRemoteInput as never)
   gameClient.off('end',       _onEnd as never)
   gameClient.off('chat',      _onChat as never)
+  gameClient.off('cursor',    _onCursor as never)
   gameClient.off('pause',     _onPause as never)
   gameClient.off('resume',    _onResume as never)
   gameClient.off('error',     _onError as never)
@@ -125,6 +130,7 @@ function _attachGameHandlers(): void {
   gameClient.on('input',     _onRemoteInput)
   gameClient.on('end',       _onEnd)
   gameClient.on('chat',      _onChat)
+  gameClient.on('cursor',    _onCursor)
   gameClient.on('pause',     _onPause)
   gameClient.on('resume',    _onResume)
   gameClient.on('error',     _onError)
@@ -195,6 +201,10 @@ function _onEnd(msg: S2CMessage & { type: 'end' }): void {
 
 function _onChat(msg: S2CMessage & { type: 'chat' }): void {
   bus.emit('net:chat-received', { playerIndex: msg.playerIndex, displayName: msg.displayName, text: msg.text })
+}
+
+function _onCursor(msg: S2CMessage & { type: 'cursor' }): void {
+  bus.emit('net:cursor-update', { playerIndex: msg.playerIndex, characterId: msg.characterId })
 }
 
 function _onPause(msg: S2CMessage & { type: 'pause' }): void {
